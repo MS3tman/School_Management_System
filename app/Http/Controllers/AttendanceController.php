@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\DateTime;
+use App\Models\Attendance;
+use Attribute;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 
@@ -11,7 +15,8 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        //
+        $attendances = Attendance::all();
+        return view('attendance/index',['attendances'=>$attendances]);
     }
 
     /**
@@ -19,7 +24,7 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        //
+        return view('attendance/create');
     }
 
     /**
@@ -27,7 +32,19 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data_validate = validator::make($request->all(),[
+            'history'=>'required|date',
+            'teacher_name'=>'required',
+            'student_name'=>'required',
+        ]);
+
+        if(!$data_validate->fails()){
+            Attendance::create($request->all());
+            return redirect('attendance/index');
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**

@@ -4,17 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Attendance extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'history',
+        'teacher_name',
+        'student_name'
+    ];
+
     public function teacher(){
-        return $this->HasMany(Teacher::class);
+        return $this->hasMany(Teacher::class);
     }
 
     public function student(){
-        return $this->HasMany(Student::class);
+        return $this->hasMany(Student::class);
     }
 }

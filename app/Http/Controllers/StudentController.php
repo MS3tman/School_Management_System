@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
+use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -11,7 +14,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $students = Student::all();
+        return view('student/index',['students'=>$students]);
     }
 
     /**
@@ -19,7 +23,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('student/create');
     }
 
     /**
@@ -27,7 +31,21 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data_validate = Validator::make($request->all(),[
+            'full_name'=>'required',
+            'address'=>'required',
+            'level'=>'required',
+            'gpa'=>'required',
+            'email'=>'required|unique:teachers|email',
+        ]);
+
+        if(!$data_validate->fails()){
+            Student::create($request->all());
+            return redirect('student/index');
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**

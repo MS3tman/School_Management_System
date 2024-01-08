@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class SubjectController extends Controller
 {
     /**
@@ -12,8 +12,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $data = Subject::find(3);
-        return $data->teacher;
+        $subjects = Subject::all();
+        return view('subject/index',['subjects'=>$subjects]);
     }
 
     /**
@@ -21,7 +21,7 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('subject.create');
     }
 
     /**
@@ -29,7 +29,18 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        $data_validate = validator::make($request->all(),[
+            'name'=>'required|unique:subjects',
+            'price'=>'required',
+        ]);
+        if(!$data_validate->fails()){
+            Subject::create($request->all());
+            return redirect('subject/index');
+        }
+        else{
+           return redirect()->back();
+        }
     }
 
     /**

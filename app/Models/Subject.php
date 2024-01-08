@@ -9,13 +9,17 @@ class Subject extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'price',
+        'teacher',
+    ];
+
     public function teacher(){
         return $this->hasMany(Teacher::class);
     }
 
-    public function students(){
+    public function student(){
         return $this->belongsToMany(Student::class);
     }
-
-
 }

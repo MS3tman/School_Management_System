@@ -43,7 +43,7 @@
                     </div>
                     <div class="row mb-3">
                     <label for="inputPassword3" class="col-sm-1 col-form-label">Gander</label>
-                        <select class="form-select" aria-label="Default select example" name="gander">
+                        <select class="form-select" aria-label=".form-select-sm example" name="gander">
                             <option selected>choose one</option>
                             <option value="1">Male</option>
                             <option value="0">Female</option>
